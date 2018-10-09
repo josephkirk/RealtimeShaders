@@ -1,0 +1,24 @@
+float3 CurColor = 0;
+int i = 0;
+float Distance = 0.01;
+int DistanceSteps = 32;
+float CurDistance = 0;
+float StepSize = Distance / (DistanceSteps/ (int) Blur);
+if (DistanceSteps < 1)
+{
+    return Texture2DSample(Tex,TexSampler,UV);         
+}
+else
+{
+    for (int x = -2; x<=2; x++)
+    {
+        for (int y = -2; y<=2; y++)
+        {
+            CurColor += Texture2DSample(Tex,TexSampler,UV + float2(x*StepSize, y*StepSize))*i;
+            CurColor += Texture2DSample(Tex,TexSampler,UV - float2(x*StepSize, y*StepSize))*i;
+        }
+        i++;
+    }
+    CurColor /= 20*2;
+    return CurColor;
+} 
